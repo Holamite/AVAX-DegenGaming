@@ -48,30 +48,41 @@ contract DegenToken is ERC20 {
         return balanceOf(player);
     }
 
-    function buyHealth() public {
-        require(
-            balanceOf(msg.sender) >= healthCost,
-            "Not enough Degen Tokens to buy health"
-        );
-        _burn(msg.sender, healthCost);
-        // grant health to player
+    function showStore() external pure returns (string memory) {
+        return "Health , Skin , Emblems";
     }
 
-    function buySkin() public {
-        require(
-            balanceOf(msg.sender) >= skinCost,
-            "Not enough Degen Tokens to buy skin"
-        );
-        _burn(msg.sender, skinCost);
-        // grant skin to player
-    }
-
-    function buyEmblem() public {
-        require(
-            balanceOf(msg.sender) >= emblemCost,
-            "Not enough Degen Tokens to buy emblem"
-        );
-        _burn(msg.sender, emblemCost);
-        // grant emblem to player
+    function redeemItem(string calldata _item) public {
+        if (
+            keccak256(abi.encodePacked(_item)) ==
+            keccak256(abi.encodePacked("Health"))
+        ) {
+            require(
+                balanceOf(msg.sender) >= healthCost,
+                "Not enough Degen Tokens to buy health"
+            );
+            _burn(msg.sender, healthCost);
+            // grant health to player
+        } else if (
+            keccak256(abi.encodePacked(_item)) ==
+            keccak256(abi.encodePacked("Skin"))
+        ) {
+            require(
+                balanceOf(msg.sender) >= skinCost,
+                "Not enough Degen Tokens to buy skin"
+            );
+            _burn(msg.sender, skinCost);
+            // grant skin to player
+        } else if (
+            keccak256(abi.encodePacked(_item)) ==
+            keccak256(abi.encodePacked("Emblem"))
+        ) {
+            require(
+                balanceOf(msg.sender) >= emblemCost,
+                "Not enough Degen Tokens to buy emblem"
+            );
+            _burn(msg.sender, emblemCost);
+            // grant emblem to player
+        }
     }
 }
